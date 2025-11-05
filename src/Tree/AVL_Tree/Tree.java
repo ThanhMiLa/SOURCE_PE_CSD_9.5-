@@ -66,13 +66,15 @@ class AVLTree {
             return root;
         }
 
+    
         if(getHeight(root.left) - getHeight(root.right) > 1){
             if(root.left.data > value){
                 root.left = leftRotation(root.left);
             }
             return rightRotation(root);
         }
-        else if(getHeight(root.left) - getHeight(root.right) < -1){
+        
+        if(getHeight(root.left) - getHeight(root.right) < -1){
             if(root.right.data < value){
                 root.right = rightRotation(root.right);
             }
@@ -148,3 +150,5 @@ public class Tree {
 
     }
 }
+
+

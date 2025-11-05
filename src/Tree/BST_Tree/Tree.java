@@ -2,6 +2,7 @@ package Tree.BST_Tree;
 
 import java.util.LinkedList;
 import java.util.Queue;
+
 class Node{
     int data;
     Node left;
@@ -13,6 +14,7 @@ class Node{
         this.right = null;
     }    
 }
+
 class BST{
     Node root;
 
