@@ -3,8 +3,7 @@ package Heap;
 /**
  * Source này hiện tại đang dùng kiểu dữ liệu đói tượng Student, mọi người copy
  * paste hãy thay đổi Student thành kiểu dữ liệu mà đề bài yêu cầu
- * Nhớ phải vào insert code để Implement equal vs hashCode, tự thêm getter vs
- * setter nếu đề bài yêu cầu,
+ * Tự thêm getter vs setter nếu đề bài yêu cầu,
  * Tìm hiểu thêm cách cài đặt hàm compareTo() vì ở đây compareTo() theo mẫu là
  * so sánh gpa là kiểu double, tìm hiểu thêm cách so sánh theo Integer hay
  * String
@@ -152,12 +151,12 @@ public class MaxHeap {
     }
 
     // PreOrder
-    public void preOrder(){
+    public void preOrder() {
         preOrder(0);
     }
 
-    public void preOrder(int i){
-        if(i >= currentSize){
+    public void preOrder(int i) {
+        if (i >= currentSize) {
             return;
         }
         System.out.println(data[i]);
@@ -165,7 +164,9 @@ public class MaxHeap {
         preOrder(2 * i + 2);
     }
 
-    /* ============================ SiftUp vs SiftDown ============================  */
+    /*
+     * ============================ SiftUp vs SiftDown ============================
+     */
     public void siftUp(int index) {
         if (index == 0)
             return;
@@ -210,6 +211,80 @@ public class MaxHeap {
         Student top = data[0];
         remove(top);
         return top;
+    }
+
+    /* ============================ FIND MIN (PreOrder) ============================ */
+    public Student findMinPreOrder() {
+        if (currentSize == 0)
+            return null;
+        return findMinPreOrder(0);
+    }
+
+    private Student findMinPreOrder(int i) {
+        if (i >= currentSize)
+            return null;
+
+        Student min = data[i];
+
+        Student leftMin = findMinPreOrder(2 * i + 1);
+        if (leftMin != null && leftMin.compareTo(min) < 0)
+            min = leftMin;
+
+        Student rightMin = findMinPreOrder(2 * i + 2);
+        if (rightMin != null && rightMin.compareTo(min) < 0)
+            min = rightMin;
+
+        return min;
+    }
+
+    /* ============================ FIND MIN (InOrder) ============================ */
+    public Student findMinInOrder() {
+        if (currentSize == 0)
+            return null;
+        return findMinInOrder(0);
+    }
+
+    private Student findMinInOrder(int i) {
+        if (i >= currentSize)
+            return null;
+
+        Student min = findMinInOrder(2 * i + 1);
+        if (min == null)
+            min = data[i];
+        else if (data[i] != null && data[i].compareTo(min) < 0)
+            min = data[i];
+
+        Student rightMin = findMinInOrder(2 * i + 2);
+        if (rightMin != null && rightMin.compareTo(min) < 0)
+            min = rightMin;
+
+        return min;
+    }
+
+    /*
+     * ============================ FIND MIN (PostOrder) ============================ */
+    public Student findMinPostOrder() {
+        if (currentSize == 0)
+            return null;
+        return findMinPostOrder(0);
+    }
+
+    private Student findMinPostOrder(int i) {
+        if (i >= currentSize)
+            return null;
+
+        Student leftMin = findMinPostOrder(2 * i + 1);
+        Student rightMin = findMinPostOrder(2 * i + 2);
+
+        Student min = null;
+        if (leftMin != null)
+            min = leftMin;
+        if (rightMin != null && (min == null || rightMin.compareTo(min) < 0))
+            min = rightMin;
+        if (min == null || (data[i] != null && data[i].compareTo(min) < 0))
+            min = data[i];
+
+        return min;
     }
 
 }
