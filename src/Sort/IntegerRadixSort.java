@@ -1,6 +1,6 @@
 package Sort;
 
-public class RadixSort {
+public class IntegerRadixSort {
 
     private static void countingSort(int[] arr, int exp) {
         int n = arr.length;

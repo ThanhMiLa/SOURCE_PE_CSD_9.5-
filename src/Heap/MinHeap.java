@@ -3,13 +3,12 @@ package Heap;
 /**
  * Source này hiện tại đang dùng kiểu dữ liệu đói tượng Student, mọi người copy
  * paste hãy thay đổi Student thành kiểu dữ liệu mà đề bài yêu cầu
- * Nhớ phải vào insert code để Implement equal vs hashCode, tự thêm getter vs
- * setter nếu đề bài yêu cầu,
+ * Tự thêm getter vs setter nếu đề bài yêu cầu,
  * Tìm hiểu thêm cách cài đặt hàm compareTo() vì ở đây compareTo() theo mẫu là
  * so sánh gpa là kiểu double, tìm hiểu thêm cách so sánh theo Integer hay
- * String
+ * String hoặc Double
  */
-class Student implements Comparable<Student> {
+class Student {
     private String ID;
     private String name;
     private double gpa;
@@ -20,7 +19,6 @@ class Student implements Comparable<Student> {
         this.gpa = gpa;
     }
 
-    @Override
     public int compareTo(Student o) {
         if (this.gpa > o.gpa)
             return 1;
@@ -60,6 +58,7 @@ class Student implements Comparable<Student> {
     }
 
     // Tự thêm getter vs Setter
+
 }
 
 public class MinHeap {
@@ -213,7 +212,9 @@ public class MinHeap {
         return top;
     }
 
-    /* ============================ FIND MAX (PreOrder) =========================== */
+    /*
+     * ============================ FIND MAX (PreOrder) ===========================
+     */
     public Student findMaxPreOrder() {
         if (currentSize == 0)
             return null;
@@ -237,7 +238,9 @@ public class MinHeap {
         return max;
     }
 
-    /* ============================ FIND MAX (InOrder) ============================ */
+    /*
+     * ============================ FIND MAX (InOrder) ============================
+     */
     public Student findMaxInOrder() {
         if (currentSize == 0)
             return null;
@@ -261,7 +264,9 @@ public class MinHeap {
         return max;
     }
 
-    /* ============================ FIND MAX (PostOrder)============================ */
+    /*
+     * ============================ FIND MAX (PostOrder)============================
+     */
     public Student findMaxPostOrder() {
         if (currentSize == 0)
             return null;
@@ -282,6 +287,46 @@ public class MinHeap {
             max = rightMax;
         if (max == null || (data[i] != null && data[i].compareTo(max) > 0))
             max = data[i];
+
+        return max;
+    }
+
+    /* ============================ DELETE MIN ============================= */
+    public Student deleteMin() {
+        if (currentSize == 0)
+            return null;
+
+        Student min = data[0]; 
+        data[0] = data[currentSize - 1]; 
+        data[currentSize - 1] = null;
+        currentSize--;
+
+        siftDown(0); 
+        return min;
+    }
+
+    /* ============================ DELETE MAX ============================= */
+    public Student deleteMax() {
+        if (currentSize == 0)
+            return null;
+
+        int maxIndex = 0;
+        for (int i = 1; i < currentSize; i++) {
+            if (data[i].compareTo(data[maxIndex]) > 0) {
+                maxIndex = i;
+            }
+        }
+
+        Student max = data[maxIndex];
+        data[maxIndex] = data[currentSize - 1];
+        data[currentSize - 1] = null;
+        currentSize--;
+
+        if (maxIndex > 0 && data[maxIndex].compareTo(data[(maxIndex - 1) / 2]) < 0) {
+            siftUp(maxIndex);
+        } else {
+            siftDown(maxIndex);
+        }
 
         return max;
     }

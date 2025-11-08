@@ -6,7 +6,7 @@ package Heap;
  * Tự thêm getter vs setter nếu đề bài yêu cầu,
  * Tìm hiểu thêm cách cài đặt hàm compareTo() vì ở đây compareTo() theo mẫu là
  * so sánh gpa là kiểu double, tìm hiểu thêm cách so sánh theo Integer hay
- * String
+ * String hoặc Double
  */
 class Student {
     private String ID;
@@ -213,7 +213,9 @@ public class MaxHeap {
         return top;
     }
 
-    /* ============================ FIND MIN (PreOrder) ============================ */
+    /*
+     * ============================ FIND MIN (PreOrder) ============================
+     */
     public Student findMinPreOrder() {
         if (currentSize == 0)
             return null;
@@ -237,7 +239,9 @@ public class MaxHeap {
         return min;
     }
 
-    /* ============================ FIND MIN (InOrder) ============================ */
+    /*
+     * ============================ FIND MIN (InOrder) ============================
+     */
     public Student findMinInOrder() {
         if (currentSize == 0)
             return null;
@@ -262,7 +266,9 @@ public class MaxHeap {
     }
 
     /*
-     * ============================ FIND MIN (PostOrder) ============================ */
+     * ============================ FIND MIN (PostOrder)
+     * ============================
+     */
     public Student findMinPostOrder() {
         if (currentSize == 0)
             return null;
@@ -283,6 +289,48 @@ public class MaxHeap {
             min = rightMin;
         if (min == null || (data[i] != null && data[i].compareTo(min) < 0))
             min = data[i];
+
+        return min;
+    }
+
+    /* ============================ DELETE MAX ============================= */
+    public Student deleteMax() {
+        if (currentSize == 0)
+            return null;
+
+        Student max = data[0]; // phần tử lớn nhất luôn nằm ở gốc heap
+        data[0] = data[currentSize - 1]; // đưa phần tử cuối lên đầu
+        data[currentSize - 1] = null;
+        currentSize--;
+
+        siftDown(0); // phục hồi tính chất heap
+
+        return max;
+    }
+
+    /* ============================ DELETE MIN ============================= */
+    public Student deleteMin() {
+        if (currentSize == 0)
+            return null;
+
+        int minIndex = 0;
+        for (int i = 1; i < currentSize; i++) {
+            if (data[i].compareTo(data[minIndex]) < 0) {
+                minIndex = i;
+            }
+        }
+
+        Student min = data[minIndex];
+
+        data[minIndex] = data[currentSize - 1];
+        data[currentSize - 1] = null;
+        currentSize--;
+
+        if (minIndex > 0 && data[minIndex].compareTo(data[(minIndex - 1) / 2]) > 0) {
+            siftUp(minIndex);
+        } else {
+            siftDown(minIndex);
+        }
 
         return min;
     }
